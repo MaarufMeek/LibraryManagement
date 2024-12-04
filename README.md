@@ -1,11 +1,11 @@
-📚 Mini Library Management Program.
+#📚 Mini Library Management Program.
 
 
 This Mini Library Management Program is a simple, interactive application for managing a small collection of books. It allows you to add, delete, search, borrow, and return books with an easy-to-use interface.
 
 Built with JavaScript, Bootstrap, and HTML, this program ensures an intuitive user experience with dynamic, responsive design and notifications.
 
-✨ Features
+#✨ Features
 
 📖 Add Books: Add new books by providing their title, author, and publication year.
 
@@ -20,10 +20,14 @@ Built with JavaScript, Bootstrap, and HTML, this program ensures an intuitive us
 🔔 Notifications: Get instant toast notifications for all actions.
 
 
-🛠️ Installation & Setup
+#🛠️ Installation & Setup
 
-Clone the repository:
-git clone https://github.com/yourusername/library-management.git
+**Clone the repository:**
+
+git clone https://github.com/yourusername/libraryManagement.git
+
 Navigate to the project folder:
+
 cd library-management
+
 Open the index.html file in your browser.

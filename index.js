@@ -80,23 +80,39 @@ class Index {
                 <td>${this.pubYear}</td>
                 <td>${this.isBorrowed ? 'Borrowed' : 'Available'}</td>
                 <td>
-                <div class="text-end pd-r">
-                     <button class="btn btn-danger btn-sm" onclick="deleteBooksByTitle('${this.title}')">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                    <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm" onclick="${
-            this.isBorrowed
-                ? `returnBookByTitle('${this.title}')`
-                : `borrowBookByTitle('${this.title}')`
-        }">
-                        <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i> 
-                    </button>
-                </div>
-                   
+                    <div class="text-end pd-r">
+                        <!-- Button for larger screens (hidden on small screens) -->
+                        <button class="btn btn-danger btn-sm d-none d-md-inline" 
+                            onclick="deleteBooksByTitle('${this.title}')">
+                            Delete <i class="bi bi-trash"></i>
+                        </button>
+                        <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm d-none d-md-inline" 
+                            onclick="${
+                                this.isBorrowed
+                                    ? `returnBookByTitle('${this.title}')`
+                                    : `borrowBookByTitle('${this.title}')`
+                            }">
+                            ${this.isBorrowed ? 'Return' : 'Borrow'} 
+                            <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i>
+                        </button>
+
+                        <!-- Icons for smaller screens -->
+                        <button class="btn btn-danger btn-sm d-inline d-md-none" 
+                            onclick="deleteBooksByTitle('${this.title}')">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm d-inline d-md-none" 
+                            onclick="${
+                                this.isBorrowed
+                                    ? `returnBookByTitle('${this.title}')`
+                                    : `borrowBookByTitle('${this.title}')`
+                            }">
+                            <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>`;
     }
-
 }
 
 // Library Class
@@ -157,12 +173,12 @@ class Library {
     }
 
     display_Books(books = this.books) {
-    if (books.length === 0) {
-        showToast("No books in the library to display.", "info");
-        return '';
-    }
+        if (books.length === 0) {
+            showToast("No books in the library to display.", "info");
+            return '';
+        }
 
-    const tableHeader = `
+        const tableHeader = `
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -175,14 +191,13 @@ class Library {
                     </tr>
                 </thead>
                 <tbody>`;
-    const tableRows = books.map(book => book.display_book()).join('');
-    const tableFooter = `
+        const tableRows = books.map(book => book.display_book()).join('');
+        const tableFooter = `
                 </tbody>
             </table>
         </div>`;
-    return tableHeader + tableRows + tableFooter;
-}
-
+        return tableHeader + tableRows + tableFooter;
+    }
 
 
     borrow_Book(title) {

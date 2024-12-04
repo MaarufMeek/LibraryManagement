@@ -1,0 +1,132 @@
+body {
+    background: #c7f9cc;
+    height: 100%;
+    padding-top: 78px;
+}
+
+
+nav {
+    background: #22577a;
+    color: #c7f9cc;
+    z-index: 1000;
+    position: sticky;
+}
+
+.ls-panel {
+    background: #c7f9cc;
+    border-radius: 10px;
+}
+
+.ls-margin {
+    margin: 20px 40px;
+}
+
+.ls-margin-r {
+    /*margin: 0 20px 0 0;*/
+    padding: 10px 10px 10px 0;
+}
+
+.pd-r {
+    padding-right: 0;
+}
+
+
+nav i {
+    font-size: 24px;
+}
+
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+#output {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+button {
+    margin-right: 10px;
+    padding: 5px 10px;
+}
+
+#output p {
+    color: red;
+    font-size: 18px;
+}
+
+#output .suc-message {
+    color: green;
+}
+
+.custom-form-control {
+    height: 50px;
+    width: 95%;
+    border: solid 2px #c7f9cc;
+    border-radius: 20px;
+    padding: 10px;
+    background: #c7f9cc;
+    color: #22577a;
+}
+
+.custom-form-control:hover {
+    border-color: #b7e6bb;
+}
+.custom-form-control:focus {
+    outline: none;
+    border-color: #8ad59d;
+    box-shadow: 0 0 5px #6eafd7;
+}
+
+.search-btn{
+    height: 50px;
+    width: 50px;
+    border-radius: 15px;
+    border: none;
+    background: #38a3a5;
+    color: white;
+    font-weight: bold;
+    font-size: 23px;
+    padding: 0;
+}
+
+.search-btn:hover{
+    background: #4f80ea;
+}
+
+form input.form-control {
+    min-width: 0;
+}
+
+form button {
+    white-space: nowrap;
+}
+
+
+
+
+
+@media (max-width: 576px) {
+    .form-control {
+        height: 40px;
+        font-size: 14px;
+    }
+}
+
+
+

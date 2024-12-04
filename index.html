@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+<nav class="navbar bg-body-primary fixed-top">
+    <div class="container-fluid d-flex flex-column flex-md-row align-items-center text-center mb-md-2">
+        <h1 class="fw-bold mb-3 mb-md-0">Library Management</h1>
+    </div>
+</nav>
+
+
+<div class="panel-row">
+    <div class="row ">
+        <!-- Left side panel for forms and buttons -->
+        <div class="col ls-panel col-md-4 my-1">
+            <div class="ls-margin">
+                <h2 class="text-left mb-4">Add a New Index</h2> <!-- Aligning the title to the left -->
+                <form class="row g-3">
+                    <div class="col-md-12">
+                        <label for="title" class="form-label fw-bold">Index Title</label>
+                        <input type="text" class="form-control" id="title" placeholder="Enter book title">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="author" class="form-label fw-bold">Index Author</label>
+                        <input type="text" class="form-control" id="author" placeholder="Enter book author">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="year" class="form-label fw-bold">Publication Year</label>
+                        <input type="number" class="form-control" id="year" placeholder="Enter publication year">
+                    </div>
+                    <div class="col-12 my-5">
+                        <button type="button" class="btn btn-primary mx-3" onclick="event.preventDefault(); addBook()">
+                            Add Book
+                        </button>
+                        <button class="btn btn-success" onclick=" event.preventDefault(); displayBooks()">Display All
+                            Books
+                        </button>
+                    </div>
+                </form>
+                <div class="form-group text-center mt-3">
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right side panel for displaying output -->
+        <div class="col-md-8 bg my-1">
+            <form class="d-flex flex-row me-4 ms-4" role="search">
+                <label for="searchQuery" class="visually-hidden"></label>
+                <input
+                        class="custom-form-control me-2 flex-grow-1"
+                        type="text"
+                        id="searchQuery"
+                        placeholder="Search by Title or Author">
+                <button
+                        class="search-btn px-3"
+                        type="submit"
+                        onclick="event.preventDefault(); searchBook()">
+                    <i class="bi bi-search fw-bold"></i>
+                </button>
+            </form>
+
+            <div class="ls-margin-r my-1" id="output"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <!-- Toast Example -->
+    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto x">Alert</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+
+        </div>
+    </div>
+</div>
+
+
+<script src="index.js"></script>
+
+
+</body>
+</html>

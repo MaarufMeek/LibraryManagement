@@ -264,7 +264,7 @@ addBook() {
     const year = parseInt(document.getElementById('year').value);
     library.addBook(title, author, year);
     clearInputs(['title', 'author', 'year']);
-    if (library.books.length > 0) displayBooks();
+    if (library.books.length > 0 && title !== '') displayBooks();
 }
 
 function

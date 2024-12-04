@@ -8,10 +8,15 @@ Built with JavaScript, Bootstrap, and HTML, this program ensures an intuitive us
 ✨ Features
 
 📖 Add Books: Add new books by providing their title, author, and publication year.
+
 🗑️ Delete Books: Remove books from the library using their title.
+
 🔍 Search Books: Find books by their title or author.
+
 📕 Borrow Books: Mark books as borrowed and manage their availability.
+
 📗 Return Books: Update books' status to available.
+
 🔔 Notifications: Get instant toast notifications for all actions.
 
 

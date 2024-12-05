@@ -1,14 +1,14 @@
+
+
 // Toast Function
 // This function displays temporary notifications on the UI.
-
-
 function showToast(message, type = "info") {
     const toastElement = document.getElementById("toast");
     const toastBody = toastElement.querySelector(".toast-body");
 
     toastBody.textContent = message;
 
-    // Set the toast color based on the type
+    // Set the toast color based on alert type
     const toastHeader = toastElement.querySelector(".toast-header");
     if (type === "success") {
         toastHeader.classList.add("bg-success");
@@ -36,7 +36,7 @@ function clearInputs(ids) {
     ids.forEach(id => document.getElementById(id).value = '');
 }
 
-// Index Class
+// Book Class
 // Represents an individual book with its properties and actions
 class Book {
     constructor(title, author, pubYear) {
@@ -73,6 +73,7 @@ class Book {
             this.isBorrowed = false;
         }
     }
+    //------------------------------------------------------------------------------------------------------------------
 
     // Generates an HTML row representation of the book
     display_book() {
@@ -83,48 +84,57 @@ class Book {
                 <td>${this.isBorrowed ? 'Borrowed' : 'Available'}</td>
                 <td>
                     <div class="text-end pd-r">
-                        <!-- Button for larger screens  -->
+                        <!-- Delete button with label & trash icon for lg screens -->
                         <button class="btn btn-danger btn-sm d-none d-md-inline" 
                             onclick="deleteBooksByTitle('${this.title}')">
                             Delete <i class="bi bi-trash"></i>
                         </button>
+                        
+                        <!-- Borrow/Return button with label & icons for lg screens -->
                         <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm d-none d-md-inline" 
                             onclick="${
-            this.isBorrowed
-                ? `returnBookByTitle('${this.title}')`
-                : `borrowBookByTitle('${this.title}')`
-        }">
+                                    this.isBorrowed
+                                        ? `returnBookByTitle('${this.title}')`
+                                        : `borrowBookByTitle('${this.title}')`
+                                }">
                             ${this.isBorrowed ? 'Return' : 'Borrow'} 
                             <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i>
                         </button>
-                         <button class="btn btn-warning btn-sm d-none d-md-inline" onclick="editBookByTitle('${this.title}')">
+                        
+                        <!-- Edit button with label & icon for lg screens -->
+                         <button class="btn btn-warning btn-sm d-none d-md-inline" 
+                            onclick="editBookByTitle('${this.title}')">
                             Edit <i class="bi bi-pen"></i>
                         </button>
 
-                        <!-- Icons for smaller screens -->
+                        <!-- Delete button with icon only for sm screens -->
                         <button class="btn btn-danger btn-sm d-inline d-md-none" 
                             onclick="deleteBooksByTitle('${this.title}')">
                             <i class="bi bi-trash"></i>
                         </button>
                         
+                        <!-- Borrorw/Return button with only icons -->
                         <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm d-inline d-md-none" 
                             onclick="${
-            this.isBorrowed
-                ? `returnBookByTitle('${this.title}')`
-                : `borrowBookByTitle('${this.title}')`
-        }">
+                                    this.isBorrowed
+                                        ? `returnBookByTitle('${this.title}')`
+                                        : `borrowBookByTitle('${this.title}')`
+                                }">
                             <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i>
                         </button>
-                         <button class="btn btn-warning btn-sm d-inline d-md-none" onclick="editBookByTitle('${this.title}')">
+                        
+                        <!-- Edit button with icon only -->
+                         <button class="btn btn-warning btn-sm d-inline d-md-none" 
+                         onclick="editBookByTitle('${this.title}')">
                             <i class="bi bi-pen"></i>
                         </button>
-                       
-
                     </div>
                 </td>
             </tr>`;
     }
 }
+// ---------------------------------------------------------------------------------------------------------------------
+
 
 // Library Class
 // Manages a collection of books and operations on them
@@ -132,10 +142,12 @@ class Library {
     constructor() {
         this.books = this.loadBooksFromLocalStorage();
     }
+    //------------------------------------------------------------------------------------------------------------------
 
     saveBooksToLocalStorage() {
         localStorage.setItem('libraryBooks', JSON.stringify(this.books))
     }
+    //------------------------------------------------------------------------------------------------------------------
 
     loadBooksFromLocalStorage() {
         const booksJson = localStorage.getItem('libraryBooks');
@@ -143,12 +155,14 @@ class Library {
             const booksData = JSON.parse(booksJson);
             return booksData.map(bookData => {
                 const book = new Book(bookData.title, bookData.author, bookData.pubYear);
-                book.isBorrowed = bookData.isBorrowed; // Ensure borrowed state is restored
+                book.isBorrowed = bookData.isBorrowed; // Ensures borrowed state is restored
                 return book;
             });
         }
+
         return [];
     }
+    //------------------------------------------------------------------------------------------------------------------
 
 
     add_Book(title, author, pubYear) {
@@ -162,6 +176,7 @@ class Library {
         this.saveBooksToLocalStorage()
         showToast(`${title} by ${author} has been added to the library.`, "success");
     }
+    //------------------------------------------------------------------------------------------------------------------
 
 
     delete_Book(name) {
@@ -174,16 +189,22 @@ class Library {
             return;
         }
 
+        //get index of the book to delete
         const index = this.books.findIndex(book => book.getTitle().toLowerCase() === name.toLowerCase());
+
         if (index !== -1) {
             this.books.splice(index, 1);
             this.saveBooksToLocalStorage();
             showToast(`${name} has been deleted from the library.`, "success");
             return;
         }
+
         showToast(`${name} does not match any books in the library.`, "error");
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    // Pass optional book param display a specific book (for instance the result of a search)
     display_Books(books = this.books) {
         if (books.length === 0) {
             showToast("No books in the library to display.", "info");
@@ -203,13 +224,15 @@ class Library {
                     </tr>
                 </thead>
                 <tbody>`;
-        const tableRows = books.map(book => book.display_book()).join('');
-        const tableFooter = `
+                    const tableRows = books.map(book => book.display_book()).join('');
+                    const tableFooter = `
                 </tbody>
             </table>
         </div>`;
+
         return tableHeader + tableRows + tableFooter;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
 
     edit_Book(title) {
@@ -223,7 +246,7 @@ class Library {
         document.querySelector('.overlay').style.display = 'block'
         document.querySelector('.edit-container').style.display = 'flex'
 
-        //Fill edit form with book's details
+        //Populate edit form with book's details
         document.getElementById('newTitle').value = book.getTitle();
         document.getElementById('newAuthor').value = book.getAuthor();
         document.getElementById('newYear').value = book.getPubYear();
@@ -237,8 +260,8 @@ class Library {
                         e.preventDefault();
                         saveBookEdits();
             })
-
     }
+    //------------------------------------------------------------------------------------------------------------------
 
 
     borrow_Book(title) {
@@ -255,6 +278,7 @@ class Library {
         this.saveBooksToLocalStorage(); // Save state here
         showToast(`${title} has been borrowed successfully`, 'success');
     }
+    //------------------------------------------------------------------------------------------------------------------
 
     return_Book(title) {
         const book = this.books.find(b => b.getTitle().toLowerCase() === title.toLowerCase());
@@ -268,9 +292,9 @@ class Library {
         }
         book.return_book();
         this.saveBooksToLocalStorage(); // Save state here
-        console.log('Books after saving to storage: ', this.books)
         showToast(`${title} has been returned successfully`, 'success');
     }
+    //------------------------------------------------------------------------------------------------------------------
 
     search_Book(query) {
         if (!query || query.trim === '') {
@@ -291,15 +315,14 @@ class Library {
         }
     }
 }
+//___________________________________End of Library Class_______________________________________________________________
+
 
 // Initialize Library instance
-const
-    library = new Library();
+const library = new Library();
 
 // User Interaction Functions
-function
-
-addBook() {
+function addBook() {
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const year = parseInt(document.getElementById('year').value);
@@ -307,22 +330,22 @@ addBook() {
     clearInputs(['title', 'author', 'year']);
     if (library.books.length > 0 && (title && author && year)) displayBooks();
 }
+//----------------------------------------------------------------------------------------------------------------------
 
-function
 
-displayBooks() {
-    const result = library.display_Books();
-    displayOutput(result);
-}
-
-function
-
-searchBook() {
+function searchBook() {
     const query = document.getElementById('searchQuery').value;
     library.search_Book(query);
     clearInputs(['searchQuery']);
 }
+//----------------------------------------------------------------------------------------------------------------------
 
+
+function displayBooks() {
+    const result = library.display_Books();
+    displayOutput(result);
+}
+//----------------------------------------------------------------------------------------------------------------------
 
 
 function saveBookEdits () {
@@ -343,7 +366,7 @@ function saveBookEdits () {
     }
 
     // Find the original book
-    const bookIndex = library.books.findIndex(book => book.getTitle().toLowerCase() === newTitle.toLowerCase())
+    const bookIndex = library.books.findIndex(book => book.getTitle().toLowerCase() === originalTitle.toLowerCase())
     if(bookIndex === -1) {
         showToast('Original book not found', 'error');
         return;
@@ -363,12 +386,15 @@ function saveBookEdits () {
     //Close the edit Container
     closeEditContainer();
 }
+//----------------------------------------------------------------------------------------------------------------------
 
 function closeEditContainer() {
     document.querySelector('.overlay').style.display = 'none';
     document.querySelector('.edit-container').style.display = 'none';
     document.querySelector('.edit-container').removeAttribute('data-original-title')
 }
+//----------------------------------------------------------------------------------------------------------------------
+
 
 // close Edit container
 const closeBtn = document.querySelector('.close-btn');
@@ -376,8 +402,7 @@ closeBtn.addEventListener('click', () => {
     document.querySelector('.edit-container').style.display = 'none'
     document.querySelector('.overlay').style.display = 'none'
 })
-
-
+//----------------------------------------------------------------------------------------------------------------------
 
 
 // Action Handlers for Buttons
@@ -402,4 +427,6 @@ function editBookByTitle(title) {
     library.edit_Book(title)
     displayBooks();
 }
+
+
 

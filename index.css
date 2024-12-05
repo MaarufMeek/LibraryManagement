@@ -12,6 +12,7 @@ nav {
     position: sticky;
 }
 
+
 .ls-panel {
     background: #c7f9cc;
     border-radius: 10px;
@@ -126,7 +127,7 @@ form button {
     width: 100%;
     height: 100%;
      background-color: rgba(0, 0, 0, 0.68);
-    z-index: 999; /* Ensure overlay is above other content */
+    z-index: 9991; /* Ensure overlay is above other content */
     display: none; /* Hidden by default */
     transition: 0.3s;
 }
@@ -135,9 +136,10 @@ form button {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* adjust for exact centering */
-    height: 80%;
+    transform: translate(-50%, -50%);
+    height: auto; /* Adjust height for responsiveness */
     width: 40%;
+    max-width: 90%; /* Ensure it doesn't exceed the screen width on smaller devices */
     border-radius: 15px;
     padding: 10px;
     background: rgba(102, 182, 151, 0.91);
@@ -145,7 +147,7 @@ form button {
     align-items: center;
     justify-content: center;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    z-index: 9999;
     transition: 0.3s;
     margin-bottom: 60px;
 }
@@ -172,8 +174,8 @@ form button {
 
 
 .edit-input {
-    border: none;
-    border-radius: 15px;
+    border: 1px solid #22577a;
+    border-radius: 10px;
     height: 50px;
     padding: 10px;
 }
@@ -218,6 +220,55 @@ form button {
     .form-control {
         height: 40px;
         font-size: 14px;
+    }
+}
+
+
+/* Media query for screens smaller than 768px (tablets and phones) */
+@media (max-width: 768px) {
+    .edit-container {
+        width: 80%;
+        height: auto;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .edit-form h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .form-fields label {
+        font-size: 1rem;
+    }
+
+    .edit-input {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .edit-submit {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+    }
+}
+
+/* Media query for screens smaller than 480px (small phones) */
+@media (max-width: 480px) {
+    .edit-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .edit-input {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .edit-submit {
+        padding: 8px;
+        font-size: 0.9rem;
     }
 }
 

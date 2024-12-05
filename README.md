@@ -1,9 +1,12 @@
 #📚 Mini Library Management Program.
 
+---
 
 This Mini Library Management Program is a simple, interactive application for managing a small collection of books. It allows you to add, delete, search, borrow, and return books with an easy-to-use interface.
 
 Built with JavaScript, Bootstrap, and HTML, this program ensures an intuitive user experience with dynamic, responsive design and notifications.
+
+---
 
 #✨ Features
 
@@ -18,6 +21,8 @@ Built with JavaScript, Bootstrap, and HTML, this program ensures an intuitive us
 📗 Return Books: Update books' status to available.
 
 🔔 Notifications: Get instant toast notifications for all actions.
+
+---
 
 
 #🛠️ Installation & Setup

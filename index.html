@@ -27,11 +27,11 @@
                 <h2 class="text-left mb-4">Add a New Index</h2> <!-- Aligning the title to the left -->
                 <form class="row g-3">
                     <div class="col-md-12">
-                        <label for="title" class="form-label fw-bold">Index Title</label>
+                        <label for="title" class="form-label fw-bold">Book Title</label>
                         <input type="text" class="form-control" id="title" placeholder="Enter book title">
                     </div>
                     <div class="col-md-12">
-                        <label for="author" class="form-label fw-bold">Index Author</label>
+                        <label for="author" class="form-label fw-bold">Book Author</label>
                         <input type="text" class="form-control" id="author" placeholder="Enter book author">
                     </div>
                     <div class="col-md-12">
@@ -88,11 +88,34 @@
         </div>
     </div>
 </div>
+<!--edit container overlay-->
+<div class="overlay"></div>
+
+<!--Book edit container-->
+<div class="edit-container" id="editForm">
+     <span class="close-btn" id="closeBtn" role="button">&times;</span> <!-- Close button -->
+        <form class=" edit-form">
+            <h1>Edit Book Details</h1>
+            <div class="form-fields">
+                <label class="fw-bold" for="newTitle">Add book Title</label>
+                <input class="edit-input" type="text" value="" id="newTitle" placeholder="Enter book title">
+            </div>
+            <div class="form-fields">
+                <label for="newAuthor" class="fw-bold">Add book author</label>
+                <input class="edit-input" type="text" value="" id="newAuthor" placeholder="Enter book title">
+            </div>
+            <div class="form-fields">
+                <label class="fw-bold" for="newYear">Add publication year</label>
+                <input type="text" value="" id="newYear" class="edit-input" placeholder="Enter book title">
+            </div>
+            <button class="edit-submit mt-3" id="editSubmit">Save</button>
+        </form>
+</div>
+<!-- Button to trigger the popup -->
 
 
-<script src="index.js"></script>
+<script src="book.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
 
 
 </body>

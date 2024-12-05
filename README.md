@@ -1,4 +1,4 @@
-#📚 Mini Library Management Program.
+# 📚 Mini Library Management Program.
 
 ---
 
@@ -8,7 +8,7 @@ Built with JavaScript, Bootstrap, and HTML, this program ensures an intuitive us
 
 ---
 
-#✨ Features
+# ✨ Features
 
 📖 Add Books: Add new books by providing their title, author, and publication year.
 
@@ -25,9 +25,9 @@ Built with JavaScript, Bootstrap, and HTML, this program ensures an intuitive us
 ---
 
 
-#🛠️ Installation & Setup
+# 🛠️ Installation & Setup
 
-**Clone the repository:**
+** Clone the repository: **
 
 git clone https://github.com/yourusername/libraryManagement.git
 

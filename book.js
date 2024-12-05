@@ -83,7 +83,7 @@ class Book {
                 <td>${this.isBorrowed ? 'Borrowed' : 'Available'}</td>
                 <td>
                     <div class="text-end pd-r">
-                        <!-- Button for larger screens (hidden on small screens) -->
+                        <!-- Button for larger screens  -->
                         <button class="btn btn-danger btn-sm d-none d-md-inline" 
                             onclick="deleteBooksByTitle('${this.title}')">
                             Delete <i class="bi bi-trash"></i>
@@ -97,12 +97,16 @@ class Book {
                             ${this.isBorrowed ? 'Return' : 'Borrow'} 
                             <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i>
                         </button>
+                         <button class="btn btn-warning btn-sm d-none d-md-inline" onclick="editBookByTitle('${this.title}')">
+                            Edit <i class="bi bi-pen"></i>
+                        </button>
 
                         <!-- Icons for smaller screens -->
                         <button class="btn btn-danger btn-sm d-inline d-md-none" 
                             onclick="deleteBooksByTitle('${this.title}')">
                             <i class="bi bi-trash"></i>
                         </button>
+                        
                         <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm d-inline d-md-none" 
                             onclick="${
             this.isBorrowed
@@ -111,9 +115,10 @@ class Book {
         }">
                             <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i>
                         </button>
-                        <button class="btn btn-warning btn-sm " onclick="editBookByTitle('${this.title}')">
-                            Edit <i class="bi bi-pen"></i>
+                         <button class="btn btn-warning btn-sm d-inline d-md-none" onclick="editBookByTitle('${this.title}')">
+                            <i class="bi bi-pen"></i>
                         </button>
+                       
 
                     </div>
                 </td>

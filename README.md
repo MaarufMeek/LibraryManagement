@@ -27,7 +27,7 @@ Built with JavaScript, Bootstrap, and HTML, this program ensures an intuitive us
 
 # 🛠️ Installation & Setup
 
-** Clone the repository: **
+*** Clone the repository: ***
 
 git clone https://github.com/yourusername/libraryManagement.git
 

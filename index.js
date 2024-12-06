@@ -364,31 +364,48 @@ class Library {
 // Initialize Library instance
 const library = new Library();
 
-// User Interaction Functions
-function addBook() {
+//-----------------------Event Handlers---------------------------------------------------------------------------------
+
+// Handler for saving a new book
+const bookSaveHandler = document.getElementById('saveBook');
+bookSaveHandler.addEventListener('click', e => {
+    e.preventDefault();
+
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
     const year = parseInt(document.getElementById('year').value);
     library.add_Book(title, author, year);
     clearInputs(['title', 'author', 'year']);
     if (library.books.length > 0 && (title && author && year)) displayBooks();
-}
+})
+
 
 //----------------------------------------------------------------------------------------------------------------------
 
+// Handler for searching book
+const searchBookHandler = document.getElementById('submitSearch');
+searchBookHandler.addEventListener('click', e => {
+    e.preventDefault();
 
-function searchBook() {
     const query = document.getElementById('searchQuery').value;
     library.search_Book(query);
     clearInputs(['searchQuery']);
-}
+})
+
 
 //----------------------------------------------------------------------------------------------------------------------
+//Handler for displaying all books
+const displayBooksHandler = document.getElementById('displayAll');
+displayBooksHandler.addEventListener("click", e => {
+    e.preventDefault();
+    displayBooks()
+})
+
 
 
 function displayBooks() {
     const result = library.display_Books();
-    displayOutput(result);
+        displayOutput(result);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -436,7 +453,6 @@ function saveBookEdits() {
 //----------------------------------------------------------------------------------------------------------------------
 
 
-
 //-----------------------Action Handlers--------------------------------------------------------------------------------
 
 
@@ -445,6 +461,7 @@ function closeEditContainer() {
     document.querySelector('.edit-container').style.display = 'none';
     document.querySelector('.edit-container').removeAttribute('data-original-title')
 }
+
 //----------------------------------------------------------------------------------------------------------------------
 
 
@@ -481,6 +498,7 @@ document
             }
         })
     })
+
 //----------------------------------------------------------------------------------------------------------------------
 
 function

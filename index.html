@@ -40,10 +40,10 @@
                         <input type="number" class="form-control" id="year" placeholder="Enter publication year">
                     </div>
                     <div class="col-12 my-5 d-flex justify-content-between ">
-                        <button type="button" class="btn btn-primary" onclick="event.preventDefault(); addBook()">
+                        <button type="button" id="saveBook" class="btn btn-primary" >
                             Add Book
                         </button>
-                        <button class="btn btn-success" onclick=" event.preventDefault(); displayBooks()">Display All
+                        <button class="btn btn-success" id="displayAll">Display All
                             Books
                         </button>
                     </div>
@@ -66,7 +66,7 @@
                 <button
                         class="search-btn px-3"
                         type="submit"
-                        onclick="event.preventDefault(); searchBook()">
+                        id="submitSearch">
                     <i class="bi bi-search fw-bold"></i>
                 </button>
             </form>

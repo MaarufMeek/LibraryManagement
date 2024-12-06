@@ -13,9 +13,9 @@
 </head>
 <body>
 <nav class="navbar bg-body-primary fixed-top">
-    <div class="container-fluid d-flex flex-row flex-md-row text-center mb-md-2">
+    <div class="container-fluid d-flex flex-colum flex-md-row text-center mb-md-2">
         <h1 class="fw-bold  mb-md-0">Library Management</h1>
-        <button class="btn btn-sm btn-info" id="clearBookData">Clear</button>
+        <button class="btn btn-sm btn-info d-none d-md-inline" id="clearBookData">Clear</button>
     </div>
 </nav>
 
@@ -39,8 +39,8 @@
                         <label for="year" class="form-label fw-bold">Publication Year</label>
                         <input type="number" class="form-control" id="year" placeholder="Enter publication year">
                     </div>
-                    <div class="col-12 my-5">
-                        <button type="button" class="btn btn-primary mx-3" onclick="event.preventDefault(); addBook()">
+                    <div class="col-12 my-5 d-flex justify-content-between ">
+                        <button type="button" class="btn btn-primary " onclick="event.preventDefault(); addBook()">
                             Add Book
                         </button>
                         <button class="btn btn-success" onclick=" event.preventDefault(); displayBooks()">Display All

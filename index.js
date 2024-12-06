@@ -435,12 +435,16 @@ function saveBookEdits() {
 
 //----------------------------------------------------------------------------------------------------------------------
 
+
+
+//-----------------------Action Handlers--------------------------------------------------------------------------------
+
+
 function closeEditContainer() {
     document.querySelector('.overlay').style.display = 'none';
     document.querySelector('.edit-container').style.display = 'none';
     document.querySelector('.edit-container').removeAttribute('data-original-title')
 }
-
 //----------------------------------------------------------------------------------------------------------------------
 
 
@@ -451,6 +455,8 @@ closeBtn.addEventListener('click', () => {
     document.querySelector('.overlay').style.display = 'none'
 })
 //----------------------------------------------------------------------------------------------------------------------
+
+//Clear All books stored in local storage
 const clearBtn = document.getElementById('clearBookData');
 
 clearBtn.addEventListener('click', () => {
@@ -463,9 +469,7 @@ clearBtn.addEventListener('click', () => {
         showToast('All Book data cleared from Local Storage', 'success');
     }
 });
-
-
-//-----------------------Action Handlers--------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
 //Remove 'input-error' when the user starts typing
 document

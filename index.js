@@ -413,6 +413,15 @@ closeBtn.addEventListener('click', () => {
     document.querySelector('.overlay').style.display = 'none'
 })
 //----------------------------------------------------------------------------------------------------------------------
+const clearBtn = document.getElementById('clearBookData');
+
+clearBtn.addEventListener('click',() => {
+    localStorage.clear();
+    library.books = [];
+    displayBooks();
+    showToast('All Book data cleared from Local Storage', 'success')
+})
+
 
 
 // Action Handlers for Buttons

@@ -1,5 +1,3 @@
-
-
 // Toast Function
 // This function displays temporary notifications on the UI.
 function showToast(message, type = "info") {
@@ -35,6 +33,7 @@ function displayOutput(content) {
 function clearInputs(ids) {
     ids.forEach(id => document.getElementById(id).value = '');
 }
+
 //----------------------------------------------------------------------------------------------------------------------
 
 // Book Class
@@ -79,6 +78,7 @@ class Book {
             this.isBorrowed = false;
         }
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
     // Generates an HTML row representation of the book
@@ -99,10 +99,10 @@ class Book {
                         <!-- Borrow/Return button with label & icons for lg screens -->
                         <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm d-none d-md-inline" 
                             onclick="${
-                                    this.isBorrowed
-                                        ? `returnBookById('${this.id}')`
-                                        : `borrowBookById('${this.id}')`
-                                }">
+            this.isBorrowed
+                ? `returnBookById('${this.id}')`
+                : `borrowBookById('${this.id}')`
+        }">
                             ${this.isBorrowed ? 'Return' : 'Borrow'} 
                             <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i>
                         </button>
@@ -122,10 +122,10 @@ class Book {
                         <!-- Borrorw/Return button with only icons -->
                         <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm d-inline d-md-none" 
                             onclick="${
-                                    this.isBorrowed
-                                        ? `returnBookByTitle('${this.id}')`
-                                        : `borrowBookByTitle('${this.id}')`
-                                }">
+            this.isBorrowed
+                ? `returnBookByTitle('${this.id}')`
+                : `borrowBookByTitle('${this.id}')`
+        }">
                             <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i>
                         </button>
                         
@@ -139,6 +139,7 @@ class Book {
             </tr>`;
     }
 }
+
 // ___________________________________End of Book Class_________________________________________________________________
 
 
@@ -148,11 +149,13 @@ class Library {
     constructor() {
         this.books = this.loadBooksFromLocalStorage();
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
     saveBooksToLocalStorage() {
         localStorage.setItem('libraryBooks', JSON.stringify(this.books))
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
     loadBooksFromLocalStorage() {
@@ -169,22 +172,46 @@ class Library {
 
         return [];
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
     add_Book(title, author, pubYear) {
-        if (!title || !author || !pubYear) {
+        const inputs = document.querySelectorAll('.form-control');
+        const inputFields = [
+            {id: 'title', name: title},
+            {id: 'author', name: author},
+            {id: 'year', name: pubYear}
+        ];
+
+        let isValidInput = true;
+
+        //Reset all input error states
+        inputs.forEach(input => {
+            input.classList.remove('input-error')
+        });
+
+        //validate input fields
+        inputFields.forEach(field => {
+            if (!field.name) {
+                document.getElementById(field.id).classList.add('input-error')
+                isValidInput = false;
+            }
+        })
+
+        if (!isValidInput) {
             showToast("You must enter all properties of a book", "info");
             return;
         }
 
+        //Add book
         const newBook = new Book(title, author, pubYear);
         this.books.push(newBook);
         this.saveBooksToLocalStorage()
         showToast(`${title} by ${author} has been added to the library.`, "success");
     }
-    //------------------------------------------------------------------------------------------------------------------
 
+    //------------------------------------------------------------------------------------------------------------------
 
     delete_Book(bookId) {
         if (this.books.length === 0) {
@@ -208,6 +235,7 @@ class Library {
 
         showToast(`Does not match any books in the library.`, "error");
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -231,14 +259,15 @@ class Library {
                     </tr>
                 </thead>
                 <tbody>`;
-                    const tableRows = books.map(book => book.display_book()).join('');
-                    const tableFooter = `
+        const tableRows = books.map(book => book.display_book()).join('');
+        const tableFooter = `
                 </tbody>
             </table>
         </div>`;
 
         return tableHeader + tableRows + tableFooter;
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -262,15 +291,16 @@ class Library {
 
         // Store the current book's title for reference
         document.querySelector('.edit-container')
-                .setAttribute('data-original-title', book.getTitle())
+            .setAttribute('data-original-title', book.getTitle())
 
         // Save changes when submit button is clicked
         document.getElementById('editSubmit').addEventListener('click',
-            function (e){
-                        e.preventDefault();
-                        saveBookEdits();
+            function (e) {
+                e.preventDefault();
+                saveBookEdits();
             })
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -288,6 +318,7 @@ class Library {
         this.saveBooksToLocalStorage(); // Save state here
         showToast(`${book.title} has been borrowed successfully`, 'success');
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
     return_Book(bookId) {
@@ -304,6 +335,7 @@ class Library {
         this.saveBooksToLocalStorage(); // Save state here
         showToast(`${book.title} has been returned successfully`, 'success');
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
     search_Book(query) {
@@ -325,6 +357,7 @@ class Library {
         }
     }
 }
+
 //___________________________________End of Library Class_______________________________________________________________
 
 
@@ -340,6 +373,7 @@ function addBook() {
     clearInputs(['title', 'author', 'year']);
     if (library.books.length > 0 && (title && author && year)) displayBooks();
 }
+
 //----------------------------------------------------------------------------------------------------------------------
 
 
@@ -348,6 +382,7 @@ function searchBook() {
     library.search_Book(query);
     clearInputs(['searchQuery']);
 }
+
 //----------------------------------------------------------------------------------------------------------------------
 
 
@@ -355,10 +390,11 @@ function displayBooks() {
     const result = library.display_Books();
     displayOutput(result);
 }
+
 //----------------------------------------------------------------------------------------------------------------------
 
 
-function saveBookEdits () {
+function saveBookEdits() {
 
     //Get title of original book
     const originalTitle = document
@@ -370,14 +406,14 @@ function saveBookEdits () {
     const newAuthor = document.getElementById('newAuthor').value.trim();
     const newYear = document.getElementById('newYear').value.trim();
 
-    if(!newTitle || !newAuthor || !newYear){
+    if (!newTitle || !newAuthor || !newYear) {
         showToast('All fields must be filled', 'error')
         return;
     }
 
     // Find the original book
     const bookIndex = library.books.findIndex(book => book.getTitle().toLowerCase() === originalTitle.toLowerCase())
-    if(bookIndex === -1) {
+    if (bookIndex === -1) {
         showToast('Original book not found', 'error');
         return;
     }
@@ -396,6 +432,7 @@ function saveBookEdits () {
     //Close the edit Container
     closeEditContainer();
 }
+
 //----------------------------------------------------------------------------------------------------------------------
 
 function closeEditContainer() {
@@ -403,6 +440,7 @@ function closeEditContainer() {
     document.querySelector('.edit-container').style.display = 'none';
     document.querySelector('.edit-container').removeAttribute('data-original-title')
 }
+
 //----------------------------------------------------------------------------------------------------------------------
 
 
@@ -415,16 +453,32 @@ closeBtn.addEventListener('click', () => {
 //----------------------------------------------------------------------------------------------------------------------
 const clearBtn = document.getElementById('clearBookData');
 
-clearBtn.addEventListener('click',() => {
-    localStorage.clear();
-    library.books = [];
-    displayBooks();
-    showToast('All Book data cleared from Local Storage', 'success')
-})
+clearBtn.addEventListener('click', () => {
+    if (library.books.length === 0) {
+        showToast('No books stored in local storage', 'info');
+    } else {
+        localStorage.clear();
+        library.books = [];
+        displayBooks();
+        showToast('All Book data cleared from Local Storage', 'success');
+    }
+});
 
 
+//-----------------------Action Handlers--------------------------------------------------------------------------------
 
-// Action Handlers for Buttons
+//Remove 'input-error' when the user starts typing
+document
+    .querySelectorAll('.form-control')
+    .forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.value.trim() !== '' || 0) {
+                input.classList.remove('input-error')
+            }
+        })
+    })
+//----------------------------------------------------------------------------------------------------------------------
+
 function
 
 deleteBookById(bookId) {

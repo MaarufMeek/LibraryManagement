@@ -116,6 +116,12 @@ form input.form-control {
     min-width: 0;
 }
 
+.input-error {
+    border: 2px solid red;
+    box-shadow: 0 0 5px red;
+}
+
+
 form button {
     white-space: nowrap;
 }

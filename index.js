@@ -1,5 +1,7 @@
 // Toast Function
 // This function displays temporary notifications on the UI.
+
+
 function showToast(message, type = "info") {
     const toastElement = document.getElementById("toast");
     const toastBody = toastElement.querySelector(".toast-body");
@@ -23,6 +25,7 @@ function showToast(message, type = "info") {
     const toast = new bootstrap.Toast(toastElement);
     toast.show();
 }
+//----------------------------------------------------------------------------------------------------------------------
 
 // Helper to manage dynamic book content display
 function displayOutput(content) {
@@ -33,8 +36,8 @@ function displayOutput(content) {
 function clearInputs(ids) {
     ids.forEach(id => document.getElementById(id).value = '');
 }
-
 //----------------------------------------------------------------------------------------------------------------------
+
 
 // Book Class
 // Represents an individual book with its properties and actions
@@ -47,9 +50,6 @@ class Book {
         this.isBorrowed = false;
     }
 
-    // generateID() {
-    //     return '_' + Math.random().toString(36).substr(2, 9);
-    // }
 
     getTitle() {
         return this.title;
@@ -78,7 +78,6 @@ class Book {
             this.isBorrowed = false;
         }
     }
-
     //------------------------------------------------------------------------------------------------------------------
 
     // Generates an HTML row representation of the book
@@ -90,48 +89,27 @@ class Book {
                 <td>${this.isBorrowed ? 'Borrowed' : 'Available'}</td>
                 <td>
                     <div class="text-end pd-r">
-                        <!-- Delete button with label & trash icon for lg screens -->
-                        <button class="btn btn-danger btn-sm d-none d-md-inline" 
-                            onclick="deleteBookById('${this.id}')">
-                            Delete <i class="bi bi-trash"></i>
-                        </button>
-                        
-                        <!-- Borrow/Return button with label & icons for lg screens -->
-                        <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm d-none d-md-inline" 
-                            onclick="${
-            this.isBorrowed
-                ? `returnBookById('${this.id}')`
-                : `borrowBookById('${this.id}')`
-        }">
-                            ${this.isBorrowed ? 'Return' : 'Borrow'} 
-                            <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i>
-                        </button>
-                        
-                        <!-- Edit button with label & icon for lg screens -->
-                         <button class="btn btn-warning btn-sm d-none d-md-inline" 
-                            onclick="editBookByID('${this.id}')">
-                            Edit <i class="bi bi-pen"></i>
-                        </button>
-
-                        <!-- Delete button with icon only for sm screens -->
-                        <button class="btn btn-danger btn-sm d-inline d-md-none" 
-                            onclick="deleteBookById('${this.id}')">
+                        <!-- Delete button with label & trash icon -->
+                        <button class="btn btn-danger btn-sm"
+                                data-action="delete"
+                                data-id="${this.id}">
+                            <span class="d-none d-md-inline">Delete</span>  <!-- only displays on md, lg -->
                             <i class="bi bi-trash"></i>
                         </button>
-                        
-                        <!-- Borrorw/Return button with only icons -->
-                        <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm d-inline d-md-none" 
-                            onclick="${
-            this.isBorrowed
-                ? `returnBookByTitle('${this.id}')`
-                : `borrowBookByTitle('${this.id}')`
-        }">
+            
+                        <!-- Borrow/Return button with label & icons -->
+                       <button class="btn btn-${this.isBorrowed ? 'success' : 'primary'} btn-sm"
+                                data-action="${this.isBorrowed ? 'return' : 'borrow'}"
+                                data-id="${this.id}">
+                                <span class="d-none d-md-inline">${this.isBorrowed ? 'Return' : 'Borrow'}</span>
                             <i class="bi ${this.isBorrowed ? 'bi-arrow-return-left' : 'bi-bookmark-plus'}"></i>
                         </button>
-                        
-                        <!-- Edit button with icon only -->
-                         <button class="btn btn-warning btn-sm d-inline d-md-none" 
-                         onclick="editBookByID('${this.id}')">
+
+                        <!-- Edit button with label & icon -->
+                         <button class="btn btn-warning btn-sm" 
+                                 data-action="edit"
+                                 data-id="${this.id}">
+                                <span class="d-none d-md-inline">Edit</span>
                             <i class="bi bi-pen"></i>
                         </button>
                     </div>
@@ -219,17 +197,18 @@ class Library {
             return;
         }
         if (!bookId) {
-            showToast("Enter the title of the book to delete", "info");
+            showToast("Invalid book ID", "info");
             return;
         }
 
         //get index of the book to delete
         const index = this.books.findIndex(book => book.id === bookId);
+        const bookName = this.books[index].title;
 
         if (index !== -1) {
             this.books.splice(index, 1);
+            showToast(`${bookName} has been deleted from the library.`, "success");
             this.saveBooksToLocalStorage();
-            showToast(`${this.books[index].title} has been deleted from the library.`, "success");
             return;
         }
 
@@ -264,7 +243,6 @@ class Library {
                 </tbody>
             </table>
         </div>`;
-
         return tableHeader + tableRows + tableFooter;
     }
 
@@ -272,33 +250,36 @@ class Library {
 
 
     edit_Book(bookId) {
-        console.log(bookId)
         const book = this.books.find(b => b.id === bookId);
-        console.log(book.id)
         if (!book) {
             showToast('Book not found', 'error');
             return;
         }
 
         // Display edit form
-        document.querySelector('.overlay').style.display = 'block'
-        document.querySelector('.edit-container').style.display = 'flex'
+        this.showEditContainer();
 
         //Populate edit form with book's details
         document.getElementById('newTitle').value = book.getTitle();
         document.getElementById('newAuthor').value = book.getAuthor();
         document.getElementById('newYear').value = book.getPubYear();
 
-        // Store the current book's title for reference
-        document.querySelector('.edit-container')
-            .setAttribute('data-original-title', book.getTitle())
+        // Store the current book's id for reference
+        // document.querySelector('.edit-container')
+        //     .setAttribute('data-book-id', bookId)
 
         // Save changes when submit button is clicked
         document.getElementById('editSubmit').addEventListener('click',
             function (e) {
                 e.preventDefault();
-                saveBookEdits();
+                saveBookEdits(bookId);
             })
+    }
+
+    showEditContainer() {
+        document.querySelector('.overlay').style.display = 'block'
+        document.querySelector('.edit-container').style.display = 'flex'
+
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -411,42 +392,48 @@ function displayBooks() {
 //----------------------------------------------------------------------------------------------------------------------
 
 
-function saveBookEdits() {
-
-    //Get title of original book
-    const originalTitle = document
-        .querySelector('.edit-container')
-        .getAttribute('data-original-title')
-
-    // Get new Book details
+function saveBookEdits(bookId) {
+    // Get new book details
     const newTitle = document.getElementById('newTitle').value.trim();
     const newAuthor = document.getElementById('newAuthor').value.trim();
     const newYear = document.getElementById('newYear').value.trim();
 
+    // Validate fields
     if (!newTitle || !newAuthor || !newYear) {
-        showToast('All fields must be filled', 'error')
+        showToast('All fields must be filled', 'error');
         return;
     }
 
-    // Find the original book
-    const bookIndex = library.books.findIndex(book => book.getTitle().toLowerCase() === originalTitle.toLowerCase())
+    if (isNaN(newYear) || newYear < 0) {
+        showToast('Year must be a valid number', 'error');
+        return;
+    }
+
+    // Find the book by ID
+    const bookIndex = library.books.findIndex(book => book.id === bookId);
     if (bookIndex === -1) {
-        showToast('Original book not found', 'error');
+        showToast('Book not found', 'error');
         return;
     }
 
-    //Update book details
-    library.books[bookIndex].title = newTitle;
-    library.books[bookIndex].author = newAuthor;
-    library.books[bookIndex].pubYear = newYear;
+    // Update book details
+    const book = library.books[bookIndex];
+    book.title = newTitle;
+    book.author = newAuthor;
+    book.pubYear = parseInt(newYear, 10);
 
-    //Save to local storage
+    // Save to local storage
+    try {
+        library.saveBooksToLocalStorage();
+        showToast('Book details updated!', 'success');
+        displayBooks();
+    } catch (error) {
+        console.error('Failed to save changes:', error);
+        showToast('Failed to save changes. Please try again.', 'error');
+        return;
+    }
 
-    library.saveBooksToLocalStorage();
-    showToast('Book details updated!', 'success')
-    displayBooks();
-
-    //Close the edit Container
+    // Close the edit container
     closeEditContainer();
 }
 
@@ -454,12 +441,48 @@ function saveBookEdits() {
 
 
 //-----------------------Action Handlers--------------------------------------------------------------------------------
+//Delete Handler
+document
+    .getElementById('output')
+    .addEventListener("click", function (e) {
+        // Find the closest button with the class 'btn-danger'
+        const deleteBtn = e.target.closest('button[data-action="delete"]');
+        if(!deleteBtn) return;
+
+        const bookId = deleteBtn.getAttribute('data-id')
+        deleteBookById(bookId)
+    });
+
+//Borrow/Return Handler
+document
+    .getElementById('output')
+    .addEventListener("click", function(e) {
+        const actionBtn = e.target.closest('button[data-action]');
+        if(!actionBtn) return;
+
+        const action = actionBtn.getAttribute('data-action');
+        const bookId = actionBtn.getAttribute('data-id');
+
+        if(action === 'borrow') borrowBookById(bookId)
+        else if(action === 'return') returnBookById(bookId)
+    })
 
 
+//Edit Handler
+document
+    .getElementById('output')
+    .addEventListener("click", function(e) {
+        const editBtn = e.target.closest('button[data-action="edit"]')
+        if(!editBtn) return;
+
+        const bookId = editBtn.getAttribute('data-id');
+        editBookByID(bookId)
+    })
+
+//
 function closeEditContainer() {
     document.querySelector('.overlay').style.display = 'none';
     document.querySelector('.edit-container').style.display = 'none';
-    document.querySelector('.edit-container').removeAttribute('data-original-title')
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -493,7 +516,7 @@ document
     .querySelectorAll('.form-control')
     .forEach(input => {
         input.addEventListener('input', () => {
-            if (input.value.trim() !== '' || 0) {
+            if (input.value.trim() !== '' || null) {
                 input.classList.remove('input-error')
             }
         })
@@ -501,9 +524,7 @@ document
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function
-
-deleteBookById(bookId) {
+function deleteBookById(bookId) {
     library.delete_Book(bookId);
     displayBooks(); // Refresh the table after deletion
 }
